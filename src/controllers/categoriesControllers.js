@@ -12,7 +12,7 @@ const listCategories = async (req, res) => {
 const insertCategorie = async (req, res) => {
   try {
     const categorieName = req.body.name;
-    await connection.query("INSERT INTO categories (name) VALUES ($1)", [
+    await connection.query("INSERT INTO categories (name) VALUES ($1);", [
       categorieName,
     ]);
     res.sendStatus(201);
