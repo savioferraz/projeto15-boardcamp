@@ -14,7 +14,7 @@ async function insertCustommerMiddleware(req, res, next) {
   });
 
   if (sameCpf.rows.length !== 0) {
-    res.sendStatus(409);
+    res.status(409).send("CPF already in use");
     return;
   }
 

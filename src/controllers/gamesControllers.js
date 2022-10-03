@@ -23,7 +23,6 @@ const insertGame = async (req, res) => {
   try {
     const gameData = req.body;
 
-    console.log(gameData);
     await connection.query(
       `INSERT INTO games (name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1, $2, $3, $4, $5)`,
       [

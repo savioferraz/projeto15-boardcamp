@@ -11,5 +11,10 @@ router.post(
   insertCustommerMiddleware,
   customersControllers.insertCustomer
 );
+router.put(
+  "/customers/:id",
+  insertCustommerMiddleware,
+  customersControllers.updateCustomer
+);
 
 export default router;

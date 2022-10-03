@@ -13,8 +13,18 @@ async function insertGameMiddleware(req, res, next) {
     abortEarly: false,
   });
 
+  const idCheck = await connection.query(
+    "SELECT * FROM categories WHERE id IN ($1)",
+    [gameData.categoryId]
+  );
+
+  if (idCheck.rows.length === 0) {
+    res.status(400).send("Invalid category");
+    return;
+  }
+
   if (sameGameName.rows.length !== 0) {
-    res.sendStatus(409);
+    res.status(409).send("Game name already in use");
     return;
   }
 
