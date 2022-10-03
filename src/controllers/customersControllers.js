@@ -14,7 +14,7 @@ const listCustomers = async (req, res) => {
       res.status(200).send(customers.rows);
     }
   } catch (error) {
-    res.sendStatus(400);
+    res.status(400).send(error.message);
   }
 };
 
@@ -28,7 +28,7 @@ const filterCustomer = async (req, res) => {
     );
     res.status(200).send(customer.rows);
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(400).send(error.message);
   }
 };
 
@@ -37,7 +37,7 @@ const insertCustomer = async (req, res) => {
     const customerData = req.body;
 
     await connection.query(
-      `INSERT INTO customers (name, phone, cpf, birthday) VALUES ($1, $2, $3, $4)`,
+      `INSERT INTO customers (name, phone, cpf, birthday) VALUES ($1, $2, $3, $4);`,
       [
         customerData.name,
         customerData.phone,
@@ -57,7 +57,7 @@ const updateCustomer = async (req, res) => {
     const customerId = req.params.id;
 
     await connection.query(
-      "UPDATE customers SET name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5",
+      "UPDATE customers SET name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5;",
       [newData.name, newData.phone, newData.cpf, newData.birthday, customerId]
     );
     res.sendStatus(200);
