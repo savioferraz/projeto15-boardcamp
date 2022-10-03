@@ -36,4 +36,26 @@ async function insertRentalMiddleware(req, res, next) {
   next();
 }
 
-export { insertRentalMiddleware };
+async function deleteRentalMiddleware(req, res, next) {
+  const rentalId = req.params.id;
+
+  const rentalData = await connection.query(
+    `SELECT * FROM rentals WHERE id=$1;`,
+    [rentalId]
+  );
+
+  if (rentalId !== rentalData.rows[0].id) {
+    res.status(404).send("Invalid entry");
+    return;
+  }
+
+  if (!rentalData.rows[0].returnDate) {
+    console.log(rentalData.rows[0].id, rentalId);
+    res.status(400).send("Can't delete open rentals");
+    return;
+  }
+
+  next();
+}
+
+export { insertRentalMiddleware, deleteRentalMiddleware };

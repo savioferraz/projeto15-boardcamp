@@ -1,6 +1,9 @@
 import express from "express";
 import * as rentalsControllers from "../controllers/rentalsControllers.js";
-import { insertRentalMiddleware } from "../middlewares/rentalsMiddlewares.js";
+import {
+  insertRentalMiddleware,
+  deleteRentalMiddleware,
+} from "../middlewares/rentalsMiddlewares.js";
 
 const router = express.Router();
 
@@ -11,6 +14,10 @@ router.post(
   rentalsControllers.insertRental
 );
 router.post("/rentals/:id/return", rentalsControllers.endRental);
-router.delete("/rentals/:id", rentalsControllers.removeRental);
+router.delete(
+  "/rentals/:id",
+  deleteRentalMiddleware,
+  rentalsControllers.removeRental
+);
 
 export default router;

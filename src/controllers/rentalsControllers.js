@@ -80,6 +80,9 @@ const endRental = async (req, res) => {
 
 const removeRental = async (req, res) => {
   try {
+    const rentalId = req.params.id;
+
+    await connection.query("DELETE FROM rentals WHERE id=$1", [rentalId]);
     res.sendStatus(200);
   } catch (error) {
     res.status(400).send(error.message);
